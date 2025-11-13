@@ -109,10 +109,29 @@ require("neo-tree").setup({
   -- A list of functions, each representing a global custom command
   -- that will be available in all sources (if not overridden in `opts[source_name].commands`)
   -- see `:h neo-tree-custom-commands-global`
-  commands = {},
+  commands = {
+    -- Create open command for visual mode (currently missing)
+    open_visual = function(state, selected_nodes)
+      local utils = require("neo-tree.utils")
+      if not selected_nodes or #selected_nodes == 0 then
+        vim.notify("No files selected", vim.log.levels.WARN, { title = "Neo-tree" })
+
+        return
+      end
+
+      for _, node in ipairs(selected_nodes) do
+        if node.type == "file" then
+          local path = node.path or node:get_id()
+          local bufnr = node.extra and node.extra.bufnr
+          utils.open_file(state, path, "e", bufnr)
+        end
+      end
+      vim.cmd("Neotree close")
+    end,
+  },
   window = {
     position = "left",
-    width = 40,
+    width = 30,
     mapping_options = {
       noremap = true,
       nowait = true,
