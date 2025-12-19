@@ -9,12 +9,10 @@ return {
         noremap = true, -- Default
       },
       mappings = {
-        -- Change: Set nowait=false for <space> to allow space-bar combos
         ["<space>"] = {
           "toggle_node",
           nowait = false,
         },
-        -- Change: Enable and configure image preview options
         ["P"] = {
           "toggle_preview",
           config = {
@@ -23,14 +21,12 @@ return {
             use_image_nvim = true,
           },
         },
-        -- Change: Expand only subnodes instead of all nodes
         ["Z"] = "expand_all_subnodes",
       },
     },
 
     -- 2. GLOBAL CUSTOM COMMAND
     commands = {
-      -- Change: Added custom command for opening visually selected files
       open_visual = function(state, selected_nodes)
         local utils = require("neo-tree.utils")
         if not selected_nodes or #selected_nodes == 0 then
@@ -48,9 +44,7 @@ return {
       end,
     },
 
-    -- 3. FILESYSTEM CHANGES
     filesystem = {
-      -- Change: Disable auto-following the current file
       follow_current_file = {
         enabled = false,
         leave_dirs_open = false,
@@ -63,7 +57,6 @@ return {
     default_component_configs = {
       git_status = {
         symbols = {
-          -- Change: Removed symbols for added and modified
           added = "",
           modified = "",
           deleted = "✖", -- Retained as it's a change from the default empty string
@@ -71,10 +64,8 @@ return {
       },
     },
 
-    -- 5. GIT STATUS SOURCE WINDOW POSITION
     git_status = {
       window = {
-        -- Change: Use a floating window for the git_status source
         position = "float",
       },
     },
