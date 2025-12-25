@@ -43,11 +43,14 @@ return {
 			end,
 		},
 		config = function(_, opts)
-			-- A. Setup Neo-tree with your options
 			require("neo-tree").setup(opts)
 
-			-- B. Your Auto-Refresh Command
 			vim.api.nvim_create_autocmd("BufWritePost", { -- Note: "BufLeave" can be a string, doesn't need {}
+				callback = function()
+					require("neo-tree.sources.manager").refresh("filesystem")
+				end,
+			})
+			vim.api.nvim_create_autocmd("BufLeave", { -- Note: "BufLeave" can be a string, doesn't need {}
 				callback = function()
 					require("neo-tree.sources.manager").refresh("filesystem")
 				end,
