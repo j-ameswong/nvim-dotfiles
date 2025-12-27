@@ -15,6 +15,7 @@ vim.keymap.set("n", "=ap", "ma=ap'a")
 vim.keymap.set("n", "<leader>zig", "<cmd>LspRestart<cr>")
 
 -- Open the error message in a floating window (like hovering)
+vim.keymap.set("n", "<leader>k", vim.lsp.buf.hover, { desc = "Show Code Info" })
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Show Code Actions" })
 vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Show Line Diagnostics" })
 
@@ -29,6 +30,7 @@ vim.keymap.set("n", "<leader><leader>", "<cmd>Neoformat<CR>")
 vim.keymap.set("n", "<leader>sf", "<cmd>FzfLua files<CR>") -- search files
 vim.keymap.set("n", "<leader>sF", "<cmd>FzfLua files cwd=~/<CR>") -- search all files
 vim.keymap.set("n", "<leader>sg", "<cmd>FzfLua live_grep<CR>") -- search text
+vim.keymap.set("n", "<leader>sk", "<cmd>FzfLua keymaps<CR>") -- search text
 
 -- Move to window using the <ctrl> hjkl keys
 vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window", remap = true })
@@ -39,6 +41,9 @@ vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window", remap = tr
 -- Swap selection
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+-- Move text after to line below
+vim.keymap.set("n", "K", "i<CR><Esc>")
 
 -- Replace without copying
 vim.keymap.set("x", "<leader>p", [["_dP]])
