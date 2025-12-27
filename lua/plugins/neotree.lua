@@ -8,9 +8,18 @@ return {
 			"nvim-tree/nvim-web-devicons", -- optional, but recommended
 		},
 		opts = {
+            filesystem = {
+                follow_current_file = { enabled = true },
+                leave_dirs_open = false,
+            },
+            bind_to_cwd = true,
 			mappings = {
 				["Z"] = "expand_all_subnodes",
 			},
+		},
+		keys = {
+			{ "<leader>e", ":Neotree toggle<CR>", desc = "Toggle Neo-tree" },
+			{ "<leader>b", ":Neotree reveal<CR>", desc = "Open Neo-tree Buffers" },
 		},
 		commands = {
 			open_visual = function(state)
@@ -46,11 +55,6 @@ return {
 			require("neo-tree").setup(opts)
 
 			vim.api.nvim_create_autocmd("BufWritePost", { -- Note: "BufLeave" can be a string, doesn't need {}
-				callback = function()
-					require("neo-tree.sources.manager").refresh("filesystem")
-				end,
-			})
-			vim.api.nvim_create_autocmd("BufLeave", { -- Note: "BufLeave" can be a string, doesn't need {}
 				callback = function()
 					require("neo-tree.sources.manager").refresh("filesystem")
 				end,

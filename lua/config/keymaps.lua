@@ -1,11 +1,5 @@
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>e", vim.cmd.Neotree)
-vim.keymap.set("n", "<leader>E", "<cmd>Neotree filesystem reveal<CR>")
 vim.keymap.set("n", "<Esc>", vim.cmd.nohl)
-
--- Terminal
-vim.keymap.set("n", "<C-/>", vim.cmd.ToggleTerm)
-vim.keymap.set("t", "<C-/>", [[<C-\><C-n>]])
 
 -- Keep centered
 vim.keymap.set("n", "J", "mzJ`z")
@@ -16,27 +10,12 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "=ap", "ma=ap'a")
 vim.keymap.set("n", "<leader>zig", "<cmd>LspRestart<cr>")
 
--- Search and replace
-vim.keymap.set("n", "<leader>R", '<cmd>lua require("spectre").toggle()<CR>', { desc = "Toggle Spectre" })
+-- Open the error message in a floating window (like hovering)
+vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Show Line Diagnostics" })
 
-vim.keymap.set(
-	"n",
-	"<leader>rw",
-	'<cmd>lua require("spectre").open_visual({select_word=true})<CR>',
-	{ desc = "Search current word" }
-)
-vim.keymap.set(
-	"v",
-	"<leader>rw",
-	'<esc><cmd>lua require("spectre").open_visual()<CR>',
-	{ desc = "Search current word" }
-)
-vim.keymap.set(
-	"n",
-	"<leader>rf",
-	'<cmd>lua require("spectre").open_file_search({select_word=true})<CR>',
-	{ desc = "Search on current file" }
-)
+-- Jump to the previous or next error
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous Diagnostic" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
 
 -- Formatting
 vim.keymap.set("n", "<leader><leader>", "<cmd>Neoformat<CR>")
@@ -58,9 +37,6 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- Replace without copying
 vim.keymap.set("x", "<leader>p", [["_dP]])
-
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
 
 vim.keymap.set("n", "<leader>f", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
