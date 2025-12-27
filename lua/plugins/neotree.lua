@@ -19,7 +19,7 @@ return {
 		},
 		keys = {
 			{ "<leader>e", ":Neotree toggle<CR>", desc = "Toggle Neo-tree" },
-			{ "<leader>b", ":Neotree reveal<CR>", desc = "Open Neo-tree Buffers" },
+			{ "<leader>b", ":Neotree reveal<CR>", desc = "Force change of cwd" },
 		},
 		commands = {
 			open_visual = function(state)

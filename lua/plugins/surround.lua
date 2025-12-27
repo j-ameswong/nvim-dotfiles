@@ -5,7 +5,7 @@ return {
     opts = {
         keymaps = {
             visual = "<C-g>",
-            visual_line = "<C-g>",
+            visual_line = "<C-v>",
         }
     }
 }
