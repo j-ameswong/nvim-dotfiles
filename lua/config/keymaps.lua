@@ -43,7 +43,7 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- Move text after to line below
-vim.keymap.set("n", "K", "i<CR><Esc>")
+vim.keymap.set("n", "K", "i<CR><Esc>k$")
 
 -- Replace without copying
 vim.keymap.set("x", "<leader>p", [["_dP]])
