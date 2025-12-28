@@ -10,7 +10,7 @@ return {
 		opts = {
 			filesystem = {
 				follow_current_file = { enabled = true },
-				leave_dirs_open = false,
+				leave_dirs_open = true,
 			},
 			bind_to_cwd = true,
 			mappings = {
@@ -19,7 +19,7 @@ return {
 		},
 		keys = {
 			{ "<leader>e", ":Neotree toggle<CR>", desc = "Toggle Neo-tree" },
-			{ "<leader>bb", ":Neotree reveal force_cwd=true<CR>", desc = "Force change of cwd" },
+			{ "<leader>bb", ":Neotree reveal<CR>", desc = "Force change of cwd" },
 		},
 		commands = {
 			open_visual = function(state)
