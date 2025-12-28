@@ -8,18 +8,18 @@ return {
 			"nvim-tree/nvim-web-devicons", -- optional, but recommended
 		},
 		opts = {
-            filesystem = {
-                follow_current_file = { enabled = true },
-                leave_dirs_open = false,
-            },
-            bind_to_cwd = true,
+			filesystem = {
+				follow_current_file = { enabled = true },
+				leave_dirs_open = false,
+			},
+			bind_to_cwd = true,
 			mappings = {
 				["Z"] = "expand_all_subnodes",
 			},
 		},
 		keys = {
 			{ "<leader>e", ":Neotree toggle<CR>", desc = "Toggle Neo-tree" },
-			{ "<leader>b", ":Neotree reveal<CR>", desc = "Force change of cwd" },
+			{ "<leader>bb", ":Neotree reveal force_cwd=true<CR>", desc = "Force change of cwd" },
 		},
 		commands = {
 			open_visual = function(state)
