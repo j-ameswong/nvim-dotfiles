@@ -2,7 +2,7 @@ return {
 	"akinsho/bufferline.nvim",
 	version = "*",
 	dependencies = "nvim-tree/nvim-web-devicons",
-	require("bufferline").setup({
+	opts = {
 		options = {
 			-- Ensure the bar hides if the only visible buffer is filtered out
 			auto_toggle_bufferline = true,
@@ -23,7 +23,7 @@ return {
 				return true
 			end,
 		},
-	}),
+	},
 	keys = {
 		-- Existing keys (cycle, pick, etc.)
 		{ "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
