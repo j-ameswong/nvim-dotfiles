@@ -1,7 +1,5 @@
 vim.opt.title = true
-vim.g.python3_host_prog = '~/python/bin/python3'
-
-vim.hl = vim.highlight
+vim.g.python3_host_prog = '~/.venv/bin/python3'
 
 require("config.keymaps")
 require("config.options")
