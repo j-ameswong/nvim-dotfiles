@@ -1,13 +1,13 @@
--- Using Lazy
 return {
-  "navarasu/onedark.nvim",
-  version = "v0.1.0", -- Pin to legacy version
-  priority = 1000,
+  "catppuccin/nvim",
+  name = "catppuccin",
+  priority = 1000, -- Ensure it loads before other plugins
   config = function()
-    require('onedark').setup {
-      style = 'deep',
-      transparent = true,
-    }
-    require('onedark').load()
-  end
+    require("catppuccin").setup({
+      flavour = "mocha", -- Use your preferred flavour
+    })
+    
+    -- Load the colorscheme here
+    vim.cmd.colorscheme "catppuccin"
+  end,
 }
