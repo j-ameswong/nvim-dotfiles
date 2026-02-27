@@ -1,7 +1,7 @@
 return {
 	"saghen/blink.cmp",
 	-- optional: provides snippets for the snippet source
-	dependencies = { "rafamadriz/friendly-snippets" },
+	dependencies = { "rafamadriz/friendly-snippets", "saghen/blink.compat" },
 
 	version = "1.*",
 	---@module 'blink.cmp'
@@ -29,7 +29,7 @@ return {
 
 		-- (Default) Only show the documentation popup when manually triggered
 		completion = {
-            documentation = { auto_show = false },
+			documentation = { auto_show = false },
 			menu = {
 				draw = {
 					components = {
@@ -73,7 +73,36 @@ return {
 		-- Default list of enabled providers defined so that you can extend it
 		-- elsewhere in your config, without redefining it, due to `opts_extend`
 		sources = {
-			default = { "lsp", "path", "snippets", "buffer" },
+			default = {
+				"lsp",
+				"path",
+				"snippets",
+				"buffer",
+				"avante_commands",
+				"avante_mentions",
+				-- "avante_shortcuts",
+				"avante_files",
+			},
+			providers = {
+				avante_commands = {
+					name = "avante_commands",
+					module = "blink.compat.source",
+					score_offset = 90,
+					opts = {},
+				},
+				avante_files = {
+					name = "avante_files",
+					module = "blink.compat.source",
+					score_offset = 100,
+					opts = {},
+				},
+				avante_mentions = {
+					name = "avante_mentions",
+					module = "blink.compat.source",
+					score_offset = 1000,
+					opts = {},
+				},
+			},
 		},
 
 		-- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
