@@ -12,6 +12,21 @@ return {
         -- See the "Debugging Support" section below for details.
     },
     config = function()
+        -- kotlin.nvim looks for the server in $MASON/packages/kotlin-lsp first,
+        -- then falls back to $KOTLIN_LSP_DIR. Mason's kotlin-lsp download is
+        -- broken upstream (JetBrains 404s every kotlin-server tarball), so the
+        -- server is installed manually from the VS Code Marketplace VSIX.
+        -- To reinstall/upgrade (VSIX is ~384MB, contains its own JBR):
+        --   curl -sSL -H "Accept-Encoding: gzip" -o k.gz \
+        --     "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/JetBrains/vsextensions/kotlin-server/<ver>/vspackage?targetPlatform=linux-x64"
+        --   gunzip -c k.gz > k.vsix && unzip -q k.vsix "extension/server/*" -d x
+        --   rm -rf ~/.local/share/kotlin-lsp && mkdir -p ~/.local/share/kotlin-lsp
+        --   mv x/extension/server/* ~/.local/share/kotlin-lsp/
+        --   chmod +x ~/.local/share/kotlin-lsp/bin/intellij-server
+        -- Switch back to Mason (once JetBrains restores downloads) by deleting
+        -- this line and running :MasonInstall kotlin-lsp.
+        vim.env.KOTLIN_LSP_DIR = vim.fn.expand("~/.local/share/kotlin-lsp")
+
         require("kotlin").setup {
             -- Optional: Specify root markers for multi-module projects
             -- Default: { "build.gradle", "build.gradle.kts", "pom.xml", "mvnw" }
@@ -33,7 +48,10 @@ return {
             --   Linux:   "/usr/lib/jvm/java-17-openjdk"
             --   Windows: "C:\\Program Files\\Java\\jdk-17"
             --   SDKMAN:  os.getenv("HOME") .. "/.sdkman/candidates/java/17.0.8-tem"
-            jdk_for_symbol_resolution = nil,  -- Auto-detect from project
+            -- Pinned to the project's Gradle toolchain (JavaLanguageVersion.of(25)).
+            -- This is only the JDK your code is analyzed against; the server itself
+            -- runs on the JBR bundled with kotlin-lsp, independent of $PATH/JAVA_HOME.
+            jdk_for_symbol_resolution = "/usr/lib/jvm/java-25-openjdk",
 
             -- Optional: Specify additional JVM arguments for the kotlin-lsp server
             jvm_args = {
