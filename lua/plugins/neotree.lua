@@ -16,6 +16,9 @@ return {
 			mappings = {
 				["Z"] = "expand_all_subnodes",
 			},
+			window = {
+				width = 30,
+            },
 		},
 		keys = {
 			{ "<leader>e", ":Neotree toggle<CR>", desc = "Toggle Neo-tree" },

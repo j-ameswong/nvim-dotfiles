@@ -1,5 +1,5 @@
 vim.g.mapleader = " "
-vim.keymap.set("n", "<Esc>", vim.cmd.nohl)
+vim.keymap.set("n", "<C-Esc>", vim.cmd.nohl)
 
 -- Lsp
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
