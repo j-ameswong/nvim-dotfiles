@@ -13,18 +13,26 @@ return {
     },
     config = function()
         -- kotlin.nvim looks for the server in $MASON/packages/kotlin-lsp first,
-        -- then falls back to $KOTLIN_LSP_DIR. Mason's kotlin-lsp download is
-        -- broken upstream (JetBrains 404s every kotlin-server tarball), so the
-        -- server is installed manually from the VS Code Marketplace VSIX.
-        -- To reinstall/upgrade (VSIX is ~384MB, contains its own JBR):
+        -- then falls back to $KOTLIN_LSP_DIR. The server is installed manually
+        -- from the VS Code Marketplace VSIX, which tracks the newest EAP build.
+        -- These are time-bombed: when the server dies at startup with "This
+        -- build of kotlin-server has expired", it needs the upgrade below --
+        -- nothing is actually broken.
+        -- To reinstall/upgrade (VSIX is ~384MB, contains its own JBR). Find the
+        -- newest <ver> on the Marketplace page for JetBrains.kotlin-server:
         --   curl -sSL -H "Accept-Encoding: gzip" -o k.gz \
         --     "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/JetBrains/vsextensions/kotlin-server/<ver>/vspackage?targetPlatform=linux-x64"
         --   gunzip -c k.gz > k.vsix && unzip -q k.vsix "extension/server/*" -d x
         --   rm -rf ~/.local/share/kotlin-lsp && mkdir -p ~/.local/share/kotlin-lsp
         --   mv x/extension/server/* ~/.local/share/kotlin-lsp/
         --   chmod +x ~/.local/share/kotlin-lsp/bin/intellij-server
-        -- Switch back to Mason (once JetBrains restores downloads) by deleting
-        -- this line and running :MasonInstall kotlin-lsp.
+        -- Installed 2026-09-05: VSIX 0.0.11 -> server build 263.4421.0 (EAP).
+        -- Alternative, a branch behind but not EAP: the standalone tarballs at
+        -- github.com/Kotlin/kotlin-lsp releases (kotlin-server-<ver>.tar.gz on
+        -- download-cdn.jetbrains.com) do resolve again -- they 404'd when this
+        -- was first set up, which is also why Mason's kotlin-lsp download was
+        -- unusable. Retry Mason by deleting the KOTLIN_LSP_DIR line below and
+        -- running :MasonInstall kotlin-lsp.
         vim.env.KOTLIN_LSP_DIR = vim.fn.expand("~/.local/share/kotlin-lsp")
 
         require("kotlin").setup {
