@@ -23,14 +23,19 @@ vim.lsp.config('solargraph', {
 })
 vim.lsp.enable('solargraph')
 
+-- ~31 t/s generation and ~2200 t/s prompt.
 vim.g.llama_config = {
   endpoint_fim = "http://127.0.0.1:8012/infill",
-  n_prefix = 192,
-  n_suffix = 48,
-  n_predict = 64,
-  t_max_prompt_ms = 300,
-  t_max_predict_ms = 700,
+  n_prefix = 256,
+  n_suffix = 64,
+  n_predict = 128,
+  t_max_prompt_ms = 800,
+  t_max_predict_ms = 1000,
   show_info = 0,
+
+  keymap_fim_accept_full = "<C-y>",
+
+  auto_fim = false,
 }
 
 require("config.keymaps")

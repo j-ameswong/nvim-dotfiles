@@ -53,3 +53,26 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
 vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("v", "<", "<gv")
+
+local function llama_auto_fim_on()
+  local cfg = vim.g.llama_config
+  local v = cfg and cfg.auto_fim
+  return v ~= nil and v ~= false and v ~= 0
+end
+
+vim.keymap.set("n", "<leader>llt", function()
+  if vim.g.llama_config == nil then
+    vim.notify("llama.vim not loaded", vim.log.levels.WARN)
+    return
+  end
+
+  local before = llama_auto_fim_on()
+  vim.cmd("LlamaToggleAutoFim")
+  local after = llama_auto_fim_on()
+
+  if after == before then
+    vim.notify("llama: auto FIM unchanged, run :LlamaEnable first", vim.log.levels.WARN)
+  else
+    vim.notify("llama: auto FIM " .. (after and "on" or "off"))
+  end
+end, { desc = "Toggle llama auto FIM" })
