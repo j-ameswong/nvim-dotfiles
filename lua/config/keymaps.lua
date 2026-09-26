@@ -1,5 +1,8 @@
-vim.g.mapleader = " "
 vim.keymap.set("n", "<C-Esc>", vim.cmd.nohl)
+vim.keymap.set("n", "<Esc>", function()
+  vim.cmd.nohlsearch()
+  vim.fn["llama#inst_cancel"]()
+end, { desc = "Clear search highlight and cancel llama instruction" })
 
 -- Lsp
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
@@ -25,6 +28,11 @@ vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next Diagnostic" }
 
 -- Formatting
 vim.keymap.set("n", "<leader><leader>", "<cmd>Neoformat<CR>")
+
+-- Private copy/paste: register a never touches the system clipboard.
+vim.keymap.set({ "n", "x" }, "<leader>y", '"ay', { desc = "Yank to private register" })
+vim.keymap.set("n", "<leader>p", '"ap', { desc = "Paste from private register" })
+vim.keymap.set("n", "<leader>P", '"aP', { desc = "Paste private register before cursor" })
 
 -- Fzf
 vim.keymap.set("n", "<leader>sf", "<cmd>FzfLua files<CR>") -- search files

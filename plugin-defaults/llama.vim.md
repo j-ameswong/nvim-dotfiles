@@ -1,0 +1,403 @@
+# llama.vim defaults and configuration source
+
+Commit: `789c40a23f099134a58f5bbb623582f0bcf49bd4`
+
+These are the upstream configuration sources at the locked commit. Defaults defined in code are reproduced verbatim; documentation is included for plugins whose settings are not expressed as one Lua table.
+
+## doc/llama.txt
+
+```text
+llama.vim                                                                *llama*
+
+LLM-based text completion using llama.cpp
+
+================================================================================
+Requirement
+
+Requires:
+
+- neovim or vim 9.1+
+- curl
+- llama.cpp server instance
+- FIM-compatible model
+- Instruct-compatible model
+
+================================================================================
+Default Shortcut
+
+insert mode:
+
+- Tab         - accept the current suggestion
+- Shift+Tab   - accept just the first line of the suggestion
+- <leader>ll] - accept just the first word of the suggestion
+- <C-H>       - cycle to previous completion (when multiple are available)
+- <C-L>       - cycle to next completion (when multiple are available)
+- <leader>llf - trigger FIM completion manually
+
+visual mode:
+
+- <leader>lli - trigger instruction-based editing (instruct mode)
+
+normal mode:
+
+- <leader>llr - rerun the instruction
+- <leader>llc - continue the instruction
+- Tab         - accept the instruction
+- Esc         - cancel the instruction
+- <leader>lld - toggle the debug pane
+
+================================================================================
+Commands
+
+*:LlamaDisable*
+
+		Disable the related autocommands and keymap for this vim/nvim session.
+		Equivalent to vimscript function: `llama#disable()`
+
+*:LlamaEnable*
+
+		Enable the related autocommands and keymap for this vim/nvim session
+		Equivalent to vimscript function: `llama#enable()`
+
+*:LlamaToggle*
+
+		Toggle the related autocommands and keymap for this vim/nvim session
+		Equivalent to vimscript function: `llama#toggle()`
+
+*:LlamaToggleAutoFim*
+
+		Toggle autofim for this vim/nvim session
+		Equivalent to vimscript function: `llama#toggle_auto_fim()`
+
+*:LlamaStatus*
+
+		Show FIM and instruction model availability. When a named profile
+		is selected, its name is shown before the model status.
+
+
+*:LlamaProfile*
+
+		Show the active and available named profiles. Pass a profile
+		name to switch both FIM and instruction endpoints:
+
+>
+		:LlamaProfile spark
+<
+		Profile names support command-line completion.
+
+
+*:LlamaProfileReset*
+		Discard the saved profile selection and restore the profile (or
+		custom endpoints) configured when llama.vim was loaded, normally in
+		your .vimrc.
+
+*:LlamaInstruct*
+		Trigger instruction-based editing (instruct mode) on selected text
+
+*:LlamaDebugClear*
+		Clear the debug pane logs.
+		Equivalent to vimscript function: `debug#clear()`
+
+*:LlamaDebugToggle*
+		Toggle the debug pane.
+		Equivalent to vimscript function: `debug#toggle()`
+
+================================================================================
+How to start the server
+
+Start the llama.cpp server with a FIM-compatible model. For example:
+
+>sh
+		$ llama-server \
+				-m {model.gguf} --port 8012 -ngl 99 -fa -dt 0.1 \
+				--ubatch-size 512 --batch-size 1024 \
+				--ctx-size 0 --cache-reuse 256
+<
+`--batch-size` [512, model max context]
+
+Adjust the batch size to control how much of the provided local context will
+be used during the inference lower values will use smaller part of the context
+around the cursor, which will result in faster processing.
+
+`--ubatch-size` [64, 2048]
+
+Chunks the batch into smaller chunks for faster processing depends on the
+specific hardware. Use llama-bench to profile and determine the best size.
+
+`--ctx-size` [1024, model max context], 0 - use model max context
+
+The maximum amount of context that the server will use. Ideally, this should
+be the same as the model's max context size, but if your device does not have
+enough memory to handle the full context, you can try to reduce this value.
+
+`--cache-reuse` (ge:llama_config.n_predict, 1024]
+
+This should be either 0 (disabled) or strictly larger than
+g:llama_config.n_predict using non-zero value enables context reuse on the
+server side which dramatically improves the performance at large contexts. A
+value of 256 should be good for all cases.
+
+================================================================================
+Configuration													*llama_config*
+
+To customize the behaviour of `llama.vim`, you can set/modify the `g:llama_config`
+variable.
+
+Currently the default config is:
+>vim
+		let s:default_config = {
+		    \ 'endpoint_fim':           'http://127.0.0.1:8012/infill',
+		    \ 'endpoint_inst':          'http://127.0.0.1:8012/v1/chat/completions',
+		    \ 'profiles':               {},
+		    \ 'profile':                '',
+		    \ 'model_fim':              '',
+		    \ 'model_inst':             '',
+		    \ 'api_key':                '',
+		    \ 'n_prefix':               256,
+		    \ 'n_suffix':               64,
+		    \ 'n_predict':              128,
+		    \ 'n_cmpl':                 1,
+		    \ 'stop_strings_fim':       [],
+		    \ 'stop_strings_inst':      [],
+		    \ 't_max_prompt_ms':        500,
+		    \ 't_max_predict_ms':       1000,
+		    \ 'show_info':              2,
+		    \ 'info_compact':           3,
+		    \ 'auto_fim':               v:true,
+		    \ 'max_line_suffix':        8,
+		    \ 'max_cache_keys':         250,
+		    \ 'ring_n_chunks':          16,
+		    \ 'ring_chunk_size':        64,
+		    \ 'ring_scope':             1024,
+		    \ 'ring_update_ms':         1000,
+		    \ 'keymap_fim_trigger':     "<leader>llf",
+		    \ 'keymap_fim_accept_full': "<Tab>",
+		    \ 'keymap_fim_accept_line': "<S-Tab>",
+		    \ 'keymap_fim_accept_word': "<leader>ll]",
+		    \ 'keymap_fim_next':        "<C-L>",
+		    \ 'keymap_fim_prev':        "<C-H>",
+		    \ 'keymap_inst_trigger':    "<leader>lli",
+		    \ 'keymap_inst_rerun':      "<leader>llr",
+		    \ 'keymap_inst_continue':   "<leader>llc",
+		    \ 'keymap_inst_accept':     "<Tab>",
+		    \ 'keymap_inst_cancel':     "<Esc>",
+		    \ 'keymap_debug_toggle':    "<leader>lld",
+		    \ 'enable_at_startup':      v:true,
+		    \ }
+<
+
+- {endpoint_fim}		llama.cpp server endpoint for FIM completion
+
+- {endpoint_inst}		llama.cpp server endpoint for instruction completion
+
+- {profiles}		    dictionary of named llama.cpp server base URLs. Selecting
+						a profile sets both endpoint_fim and endpoint_inst.
+
+- {profile}		        profile selected at startup. Leave empty to use
+						endpoint_fim and endpoint_inst directly.
+						A profile selected with |:LlamaProfile| is saved between
+						sessions and takes precedence until |:LlamaProfileReset|.
+
+- {api_key}				llama.cpp server api key (optional)
+
+- {model_fim}			model name for FIM completion (optional)
+						recommended: Qwen3 Coder 30B
+
+- {model_inst}			model name for instruction completion (optional)
+						recommended: gpt-oss-120b
+
+- {n_prefix}			number of lines before the cursor location to include
+						in the local prefix
+
+- {n_suffix}			number of lines after  the cursor location to include
+						in the local suffix
+
+- {n_predict}			max number of tokens to predict
+
+- {n_cmpl}			number of completions to cache per position (ring buffer).
+					set to 2 or 3 for multiple options that you can cycle
+					through with Ctrl-H/Ctrl-L. Each request generates this
+					many completions (requires server with n_cmpl support).
+					(default: 1)
+
+- {stop_strings_fim}	return the result immediately as soon as any of these
+						strings are encountered in the generated text for FIM completions
+
+- {stop_strings_inst}	return the result immediately as soon as any of these
+						strings are encountered in the generated text for instruction completions
+
+- {t_max_prompt_ms}		max allowed time for the prompt processing
+						(TODO: not yet supported)
+
+- {t_max_predict_ms}	max allowed time for the prediction
+
+- {show_info}			show extra info about the inference
+						(0 - disabled, 1 - statusline, 2 - inline)
+
+- {info_compact}		info message length
+						(0 - full, 1 - short ms and t/s, 2 - remove t/s,
+						3 - also remove e:, q:, C:, 4 - only c: and r:)
+
+- {auto_fim}			trigger FIM completion automatically on cursor movement
+
+- {max_line_suffix}		do not auto-trigger FIM completion if there are
+						more than this number of characters to the right
+						of the cursor
+
+- {max_cache_keys}		max number of cached completions to keep in result_cache
+
+- {enable_at_startup}	whether to enable llama.vim functionality at startup
+						(v:true to enable, v:false to disable; default: v:true)
+
+parameters for the ring-buffer with extra context:
+
+- {ring_n_chunks}		max number of chunks to pass as extra context to the
+						server (0 to disable)
+
+- {ring_chunk_size}		max size of the chunks (in number of lines)
+						Note: Adjust these numbers so that you don't overrun
+						your context. At `ring_n_chunks = 64` and
+						`ring_chunk_size = 64` you need ~32k context
+
+- {ring_scope}			the range around the cursor position (in number of
+						lines) for gathering chunks after FIM
+
+- {ring_update_ms}		how often to process queued chunks in normal mode
+
+keymaps parameters:
+
+- {keymap_fim_trigger}		keymap to trigger the auto completion, default: <leader>llf
+
+- {keymap_fim_accept_full}	keymap to accept full suggestion, default: <Tab>
+
+- {keymap_fim_accept_line}	keymap to accept line suggestion, default: <S-Tab>
+
+- {keymap_fim_accept_word}	keymap to accept word suggestion, default: <leader>ll]
+
+- {keymap_fim_next}		keymap to cycle to next completion, default: <C-L>
+
+- {keymap_fim_prev}		keymap to cycle to previous completion, default: <C-H>
+
+- {keymap_inst_trigger}		keymap to trigger instruction-based editing, default: <leader>lli
+
+- {keymap_inst_rerun}		keymap to rerun the instruction, default: <leader>llr
+
+- {keymap_inst_continue}	keymap to continue the instruction, default: <leader>llc
+
+- {keymap_inst_accept}		keymap to accept the instruction, default: <Tab>
+
+- {keymap_inst_cancel}		keymap to cancel the instruction, default: <Esc>
+
+- {keymap_debug_toggle}		keymap to toggle the debug pane, default: <leader>lld
+
+Example:
+
+1. Disable the inline info (vimscript):
+>vim
+		" put before llama.vim loads
+		let g:llama_config = { 'show_info': 0 }
+
+2. Same but setting the specific variable directly
+>vim
+		let g:llama_config.show_info = v:false
+<
+
+3. Disable auto FIM completion, etc (lazy.nvim, lua):
+>lua
+		{
+			'ggml-org/llama.vim',
+			init = function()
+				vim.g.llama_config = {
+					n_prefix = 1024,
+					n_suffix= 1024,
+					auto_fim = false,
+					keymap_fim_accept_full = "<C-S>",
+					enable_at_startup = false,
+				}
+			end,
+		}
+<
+4. Force single-line FIM completion (lazy.nvim, lua):
+>lua
+		{
+			'ggml-org/llama.vim',
+			init = function()
+				vim.g.llama_config = {
+					n_prefix = 1024,
+					n_suffix = 1024,
+					auto_fim = false,
+					keymap_fim_accept_full = "<C-S>",
+					stop_strings_fim = { "\n" },
+					stop_strings_inst = { "\n" },
+					enable_at_startup = false,
+				}
+			end,
+		}
+<
+5. Configure and switch between named llama.cpp servers:
+>vim
+		let g:llama_config.profiles = {
+		    \ 'spark':  'http://192.168.0.66:8080',
+		    \ 'gmktec': 'http://192.168.0.65:8080',
+		    \ }
+		let g:llama_config.profile = 'spark'
+
+		" Show the active and available profiles.
+		:LlamaProfile
+
+		" Switch FIM and instruction requests to another server.
+		:LlamaProfile gmktec
+<
+To adjust the colors for hint and info texts, `llama.vim` provides the
+highlight group `llama_hl_fim_hint` and `llama_hl_fim_info`. You can modify these
+groups using the normal way.
+
+Example:
+
+vimscript:
+>vim
+		highlight llama_hl_fim_hint guifg=#f8732e ctermfg=209
+		highlight llama_hl_fim_info guifg=#50fa7b ctermfg=119
+<
+lua:
+>lua
+		vim.api.nvim_set_hl(0, "llama_hl_fim_hint", {fg = "#f8732e", ctermfg=209})
+		vim.api.nvim_set_hl(0, "llama_hl_fim_info", {fg = "#50fa7b", ctermfg=119})
+<
+
+================================================================================
+More Info
+
+  - https://github.com/ggml-org/llama.vim
+  - https://github.com/ggerganov/llama.cpp/pull/9787
+
+vim:tw=80:ts=4:ft=help:norl:
+
+```
+
+## LICENSE
+
+```text
+MIT License
+
+Copyright (c) 2025 The llama.vim contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+```

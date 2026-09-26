@@ -1,10 +1,7 @@
--- vim.api.nvim_create_autocmd("FileType", {
--- 	pattern = { "norg", "neorg" },
--- 	callback = function()
--- 		vim.opt_local.conceallevel = 2
--- 		if pcall(vim.treesitter.start) then
--- 			vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
--- 			vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
--- 		end
--- 	end,
--- })
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("config_treesitter", { clear = true }),
+  pattern = { "lua", "vim", "python", "tex", "css", "javascript", "javascriptreact", "typescript", "typescriptreact" },
+  callback = function()
+    pcall(vim.treesitter.start)
+  end,
+})
