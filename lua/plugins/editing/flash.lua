@@ -1,6 +1,7 @@
 -- Locked defaults: ../../../plugin-defaults/flash.nvim.md @ 5f0f270fdc7c5b0c21d903ee85b9cb06f2ac636a
 return {
   "folke/flash.nvim",
+  enabled = true,
   event = "VeryLazy",
   ---@type Flash.Config
   opts = {},

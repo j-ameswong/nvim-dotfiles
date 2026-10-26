@@ -1,6 +1,7 @@
--- Locked defaults: ../../../plugin-defaults/vimtex.md @ 16a5609d17a436db7f48046d91747fd6a9d75c74
+-- Locked defaults: ../../../plugin-defaults/vimtex.md @ 02eee260766d031185449c9600f03b933fa0357c
 return {
 	"lervag/vimtex",
+	enabled = true,
 	lazy = false, -- we don't want to lazy load VimTeX
 	-- tag = "v2.15", -- uncomment to pin to a specific release
 	init = function()

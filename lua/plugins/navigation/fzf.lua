@@ -1,6 +1,7 @@
--- Locked defaults: ../../../plugin-defaults/fzf-lua.md @ 78b85d2a522b1e6a2d154216b3e532a1df1ad6d7
+-- Locked defaults: ../../../plugin-defaults/fzf-lua.md @ 5b88d6f0af7fcb41d4a8bb340bf70d7e3824ee9d
 return {
   "ibhagwan/fzf-lua",
+  enabled = true,
   cmd = "FzfLua",
   -- optional for icon support
   dependencies = { "nvim-tree/nvim-web-devicons" },

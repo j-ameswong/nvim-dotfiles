@@ -1,6 +1,7 @@
--- Locked defaults: ../../../plugin-defaults/kotlin.nvim.md @ 74119c9ee1b923eb0da67efd5521c2ae58bab70d
+-- Locked defaults: ../../../plugin-defaults/kotlin.nvim.md @ bc8ed5523db7e0ec2c00e26a17858e4c54d86072
 return {
     "AlexandrosAlexiou/kotlin.nvim",
+    enabled = true,
     ft = { "kotlin" },
     dependencies = {
         "mason.nvim",

@@ -1,7 +1,8 @@
--- Locked defaults: ../../../plugin-defaults/markview.nvim.md @ 190bb227c9d3eb4451b81fa16ea3d2efde2d67c5
+-- Locked defaults: ../../../plugin-defaults/markview.nvim.md @ ecc5a8867daa1856f8bcc5fdbceca8f5a5ce5f5d
 -- For `plugins/markview.lua` users.
 return {
 	"OXY2DEV/markview.nvim",
+	enabled = true,
 	lazy = false,
 
 	-- Completion for `blink.cmp`

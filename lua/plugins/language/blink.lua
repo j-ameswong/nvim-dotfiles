@@ -1,6 +1,7 @@
 -- Locked defaults: ../../../plugin-defaults/blink.cmp.md @ 78336bc89ee5365633bcf754d93df01678b5c08f
 return {
 	"saghen/blink.cmp",
+	enabled = true,
 	-- optional: provides snippets for the snippet source
 	dependencies = { "rafamadriz/friendly-snippets" },
 

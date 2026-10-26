@@ -1,6 +1,7 @@
--- Locked defaults: ../../../plugin-defaults/gitsigns.nvim.md @ 070a5d7b985546cc57e1fc61e5bc507fecac6045
+-- Locked defaults: ../../../plugin-defaults/gitsigns.nvim.md @ d4854fa9a94b5c8b37dd209fb4a19e98e764186f
 return {
     "lewis6991/gitsigns.nvim",
+    enabled = true,
     opts = {
     }
 }

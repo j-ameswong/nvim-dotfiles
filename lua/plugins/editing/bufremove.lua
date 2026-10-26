@@ -1,6 +1,7 @@
 -- Locked defaults: ../../../plugin-defaults/mini.bufremove.md @ 4cfbb201b2760da79ca6e1a00e9f67cbc99cbb8f
 return {
 	"echasnovski/mini.bufremove",
+	enabled = true,
 	version = "*",
 	keys = {
 		{

@@ -2,6 +2,7 @@
 return {
   {
     "j-hui/fidget.nvim",
+    enabled = true,
     opts = {
       -- Options related to LSP progress subsystem
       progress = {

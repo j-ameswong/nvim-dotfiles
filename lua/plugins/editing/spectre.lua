@@ -1,6 +1,7 @@
 -- Locked defaults: ../../../plugin-defaults/nvim-spectre.md @ 72f56f7585903cd7bf92c665351aa585e150af0f
 return {
 	"nvim-pack/nvim-spectre",
+	enabled = true,
 	keys = {
 		-- Search and replace
 		{

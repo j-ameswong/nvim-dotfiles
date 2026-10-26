@@ -1,14 +1,16 @@
 -- Locked defaults: ../../../plugin-defaults/indent-blankline.nvim.md @ f1e186e44d3b7f9ae918008e2c28ce37c6023d2d
--- Locked defaults: ../../../plugin-defaults/mini.indentscope.md @ 92fbaf895f83c59575ec599df532b297ebf62b14
+-- Locked defaults: ../../../plugin-defaults/mini.indentscope.md @ f75e6e4d560641cbb42e97182819af0175bdfe0e
 return {
 	{
 		"lukas-reineke/indent-blankline.nvim",
+		enabled = true,
 		main = "ibl",
 		opts = {},
 	},
 
 	{
 		"echasnovski/mini.indentscope",
+		enabled = true,
 		version = false, -- wait till new 0.7.0 release to put it back on semver
 		opts = {
 			symbol = "│",

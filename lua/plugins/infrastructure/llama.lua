@@ -1,6 +1,7 @@
--- Locked defaults: ../../../plugin-defaults/llama.vim.md @ 789c40a23f099134a58f5bbb623582f0bcf49bd4
+-- Locked defaults: ../../../plugin-defaults/llama.vim.md @ e1ca1cc6af9da73f4ae21f810f33909d515592e6
 return {
   "ggml-org/llama.vim",
+  enabled = false,
   init = function()
     -- Preserve defaults already filled by llama.vim if lazy.nvim reloads specs.
     -- ~31 t/s generation and ~2200 t/s prompt with the local server.
