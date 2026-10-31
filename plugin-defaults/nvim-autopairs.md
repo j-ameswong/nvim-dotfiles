@@ -1,6 +1,6 @@
 # nvim-autopairs defaults and configuration source
 
-Commit: `430522f95fe4fb7c511ec64f8c1a90cc6a66c05c`
+Commit: `3172f40c16563db871a58f20d205c710ad782311`
 
 These are the upstream configuration sources at the locked commit. Defaults defined in code are reproduced verbatim; documentation is included for plugins whose settings are not expressed as one Lua table.
 
@@ -194,7 +194,9 @@ local function is_disable(is_new_buf)
     if is_new_buf then
         if
             utils.check_filetype(M.config.disable_filetype, vim.bo.filetype)
-            or (M.config.enabled and not M.config.enabled(api.nvim_get_current_buf()))
+            or (
+                M.config.enabled and not M.config.enabled(api.nvim_get_current_buf())
+            )
         then
             del_keymaps()
             M.set_buf_rule({}, 0)
@@ -616,8 +618,8 @@ M.autopairs_cr = function(bufnr)
                 local end_pair = rule:get_end_pair(cond_opt)
                 return utils.esc(
                     '<CR>'
-                    .. end_pair -- FIXME do i need to re indent twice #118
-                    .. '<CMD>normal! ====<CR><up><end><CR>'
+                        .. end_pair -- FIXME do i need to re indent twice #118
+                        .. '<CMD>normal! ====<CR><up><end><CR>'
                 )
             end
 
@@ -683,7 +685,7 @@ M.autopairs_afterquote = function(line, key_char)
                         end
                         return utils.esc(
                             "<esc><cmd>lua require'nvim-autopairs'.autopairs_closequote_expr()<cr>"
-                            .. append
+                                .. append
                         )
                     end
                 end

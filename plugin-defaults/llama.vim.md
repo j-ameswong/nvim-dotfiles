@@ -1,6 +1,6 @@
 # llama.vim defaults and configuration source
 
-Commit: `789c40a23f099134a58f5bbb623582f0bcf49bd4`
+Commit: `e1ca1cc6af9da73f4ae21f810f33909d515592e6`
 
 These are the upstream configuration sources at the locked commit. Defaults defined in code are reproduced verbatim; documentation is included for plugins whose settings are not expressed as one Lua table.
 

@@ -1,6 +1,6 @@
 # mason-lspconfig.nvim defaults and configuration source
 
-Commit: `137bd0feba2c1885545b6934d36f5e5aa6adb486`
+Commit: `a338f44149f5673882c32629697d67b0c0547aec`
 
 These are the upstream configuration sources at the locked commit. Defaults defined in code are reproduced verbatim; documentation is included for plugins whose settings are not expressed as one Lua table.
 

@@ -1,6 +1,6 @@
 # fzf-lua defaults and configuration source
 
-Commit: `78b85d2a522b1e6a2d154216b3e532a1df1ad6d7`
+Commit: `5b88d6f0af7fcb41d4a8bb340bf70d7e3824ee9d`
 
 These are the upstream configuration sources at the locked commit. Defaults defined in code are reproduced verbatim; documentation is included for plugins whose settings are not expressed as one Lua table.
 
@@ -53,6 +53,10 @@ end
 
 -- Cross platform extended perl regex grep flag
 local GREP_PERL_REGEXP = utils.is_darwin() and "--extended-regexp" or "--perl-regexp"
+
+-- fzf runs bind commands through `cmd.exe` on Windows where environment
+-- variables use `%VAR%` instead of `$VAR`
+local FZF_POS = utils._if_win_normalize_vars("$FZF_POS")
 
 ---@class fzf-lua.config.TreesitterWinopts
 ---@field enabled boolean Enable treesitter highlighting in fzf main window.
@@ -712,7 +716,7 @@ M.defaults.git = {
         header = "git hunks",
         reuse = #vim.api.nvim_list_uis() == 0,
         exec_silent = #vim.api.nvim_list_uis() > 0,
-        field_index = "{} $FZF_POS",
+        field_index = "{} " .. FZF_POS,
       },
       ["ctrl-q"] = {
         fn = function(s, _o)
@@ -721,7 +725,8 @@ M.defaults.git = {
           FzfLua.git_commits(o)
         end,
         reuse = true,
-        header = "git commits"
+        header = "git commits",
+        field_index = "{} " .. FZF_POS,
       },
     },
   },
@@ -782,7 +787,7 @@ M.defaults.git = {
         header = "git diff",
         reuse = #vim.api.nvim_list_uis() == 0,
         exec_silent = #vim.api.nvim_list_uis() > 0,
-        field_index = "{} $FZF_POS",
+        field_index = "{} " .. FZF_POS,
       },
     },
     fzf_opts      = { ["--no-multi"] = true },
@@ -1578,8 +1583,8 @@ M.defaults.lsp = {
 ---@field symbol_hl? fun(s:string):string
 ---Custom format function for symbol display.
 ---@field symbol_fmt? fun(s:string, ...):string
----Display style for symbol icons, `1` for icon only, `2` for icon+name, `3` for icon+name(colored).
----@field symbol_style? integer
+---Display style for symbol kinds, `1` for icon+kind, `2` for icon only, `3` for kind only.
+---@field symbol_style? integer|false
 ---Icons for each symbol kind.
 ---@field symbol_icons? table<string, string>
 ---Display child prefix (indentation) for nested symbols.
@@ -1941,9 +1946,12 @@ M.defaults.autocmds = {
 ---@field __locate_pos? integer
 ---Jump to the current undo position on picker open.
 ---@field locate boolean
+---Undo tree draw style, `tree` for the existing box-drawing layout or `graph` for the `:Undotree` ASCII graph layout.
+---@field tree_style "tree"|"graph"
 M.defaults.undotree = {
   previewer      = "undotree",
   locate         = true,
+  tree_style     = "tree",
   fzf_opts       = { ["--no-multi"] = true },
   actions        = { ["enter"] = actions.undo },
   _cached_hls    = { "buf_linenr", "buf_name", "path_linenr", "dir_part" },

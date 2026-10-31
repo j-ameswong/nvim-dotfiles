@@ -1,6 +1,6 @@
 # gitsigns.nvim defaults and configuration source
 
-Commit: `070a5d7b985546cc57e1fc61e5bc507fecac6045`
+Commit: `d4854fa9a94b5c8b37dd209fb4a19e98e764186f`
 
 These are the upstream configuration sources at the locked commit. Defaults defined in code are reproduced verbatim; documentation is included for plugins whose settings are not expressed as one Lua table.
 

@@ -1,6 +1,6 @@
 # undotree defaults and configuration source
 
-Commit: `5721c3fb3876f3e772251a23d1ab0948899a0216`
+Commit: `ae312c61558ee41316e992d3bae3afea2a77f62c`
 
 These are the upstream configuration sources at the locked commit. Defaults defined in code are reproduced verbatim; documentation is included for plugins whose settings are not expressed as one Lua table.
 

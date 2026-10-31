@@ -1,7 +1,9 @@
 vim.keymap.set("n", "<C-Esc>", vim.cmd.nohl)
 vim.keymap.set("n", "<Esc>", function()
   vim.cmd.nohlsearch()
-  vim.fn["llama#inst_cancel"]()
+  if vim.fn.exists("*llama#inst_cancel") == 1 then
+    vim.fn["llama#inst_cancel"]()
+  end
 end, { desc = "Clear search highlight and cancel llama instruction" })
 
 -- Lsp
@@ -69,7 +71,7 @@ local function llama_auto_fim_on()
 end
 
 vim.keymap.set("n", "<leader>llt", function()
-  if vim.g.llama_config == nil then
+  if vim.fn.exists(":LlamaToggleAutoFim") ~= 2 then
     vim.notify("llama.vim not loaded", vim.log.levels.WARN)
     return
   end

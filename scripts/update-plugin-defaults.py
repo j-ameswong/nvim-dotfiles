@@ -15,6 +15,7 @@ LOCK = json.loads((ROOT / "lazy-lock.json").read_text())
 SOURCES = {
     "blink.cmp": ["lua/blink/cmp/config"],
     "bufferline.nvim": ["lua/bufferline/config.lua"],
+    "diffview.nvim": ["lua/diffview/config.lua"],
     "fidget.nvim": ["lua/fidget.lua", "lua/fidget/options.lua", "lua/fidget/progress.lua", "lua/fidget/progress/display.lua", "lua/fidget/progress/lsp.lua", "lua/fidget/notification.lua", "lua/fidget/notification/view.lua", "lua/fidget/notification/window.lua", "lua/fidget/logger.lua"],
     "flash.nvim": ["lua/flash/config.lua"],
     "fzf-lua": ["lua/fzf-lua/defaults.lua"],
@@ -61,6 +62,7 @@ CONFIG_SOURCES = {
     "editing/surround": ["nvim-surround"],
     "editing/ts-auto": ["ts-autotag.nvim"],
     "editing/undotree": ["undotree"],
+    "git/diffview": ["diffview.nvim"],
     "git/fugitive": ["vim-fugitive"],
     "git/gitsigns": ["gitsigns.nvim"],
     "infrastructure/llama": ["llama.vim"],

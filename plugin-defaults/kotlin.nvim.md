@@ -1,6 +1,6 @@
 # kotlin.nvim defaults and configuration source
 
-Commit: `74119c9ee1b923eb0da67efd5521c2ae58bab70d`
+Commit: `bc8ed5523db7e0ec2c00e26a17858e4c54d86072`
 
 These are the upstream configuration sources at the locked commit. Defaults defined in code are reproduced verbatim; documentation is included for plugins whose settings are not expressed as one Lua table.
 
@@ -72,8 +72,10 @@ setup({opts})                                                          *kotlin.s
                 { type = "gradle"|"maven"|"bazel"|"jps"|"json"|"subproject",
                   path = <build file or dir, absolute or relative to root>,
                   java_home = ?, env = ?, system_properties = ?,
-                  project_path = ? (bazel) }.
-                Requires kotlin-lsp v263.4702.0+.
+                  project_path = ? (bazel), profiles = ? (maven),
+                  download_additional_artifacts = ?, offline = ? }.
+                Requires kotlin-lsp v263.4702.0+ (profiles and the two
+                booleans v263.6379.0+).
             • reload_workspace: { on_build_file_save = "ask"|"always"|"never" }
                 Re-import when a build file is saved. Default "ask".
                 Requires kotlin-lsp v263.4702.0+.
@@ -86,11 +88,12 @@ setup({opts})                                                          *kotlin.s
                 to execute them.
             • dap: { console = "integratedTerminal"|"internalConsole"|
                 "externalTerminal", build_before_run = boolean,
-                configurations = boolean } — where a launched program's
-                output goes (default integratedTerminal), whether plain JVM
-                launches run the server's build command first (default true),
-                and whether default entries are added to
-                dap.configurations.kotlin/java (default true).
+                configurations = boolean }
+                — where a launched program's output goes (default
+                integratedTerminal), whether plain JVM launches run the
+                server's build command first (default true), whether default
+                entries are added to dap.configurations.kotlin/java (default
+                true).
             • java_files: boolean — also attach to Java buffers of a project
                 whose server is already running, like the VS Code client, so
                 unsaved Java edits reach Kotlin analysis immediately. A Java
@@ -562,7 +565,12 @@ initialization options, because some of them need the editor:
 
 `intellij/chooseAction`      A "choose one" menu (e.g. which expression to
                              extract). Shown with |vim.ui.select()|; the pick
-                             is sent back through `chooseModCommandAction`.
+                             runs the command its entry carries (older servers:
+                             `chooseModCommandAction`).
+`intellij/showConflicts`     A refactoring (Move, Extract variable) reports
+                             problems and asks to continue (v263.6379.0+).
+                             Shown with |vim.ui.select()|; picking a conflict
+                             opens its code, closing the menu cancels.
 `intellij/copyToClipboard`   Text copied to the `+` and `"` registers.
 `intellij/runEditorCommand`  `editor.action.rename` → |vim.lsp.buf.rename()|,
                              `editor.action.triggerSuggest` → completion,

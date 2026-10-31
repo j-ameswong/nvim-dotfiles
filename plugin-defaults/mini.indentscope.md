@@ -1,6 +1,6 @@
 # mini.indentscope defaults and configuration source
 
-Commit: `92fbaf895f83c59575ec599df532b297ebf62b14`
+Commit: `f75e6e4d560641cbb42e97182819af0175bdfe0e`
 
 These are the upstream configuration sources at the locked commit. Defaults defined in code are reproduced verbatim; documentation is included for plugins whose settings are not expressed as one Lua table.
 
@@ -565,7 +565,7 @@ H.default_config = vim.deepcopy(MiniIndentscope.config)
 H.ns_id = vim.api.nvim_create_namespace('MiniIndentscope')
 
 -- Timer for doing animation
-H.timer = vim.loop.new_timer()
+H.timer = vim.uv.new_timer()
 
 -- Table with current relevalnt data:
 -- - `event_id` - counter for events.

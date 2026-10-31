@@ -1,6 +1,6 @@
 # markview.nvim defaults and configuration source
 
-Commit: `190bb227c9d3eb4451b81fa16ea3d2efde2d67c5`
+Commit: `ecc5a8867daa1856f8bcc5fdbceca8f5a5ce5f5d`
 
 These are the upstream configuration sources at the locked commit. Defaults defined in code are reproduced verbatim; documentation is included for plugins whose settings are not expressed as one Lua table.
 

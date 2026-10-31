@@ -1,6 +1,6 @@
 # nvim-treesitter defaults and configuration source
 
-Commit: `25a9b06a09ea4e10712bec37e7b7d9f423262b91`
+Commit: `a2f694478be07f89c2d03cc17858a8745a400c4b`
 
 These are the upstream configuration sources at the locked commit. Defaults defined in code are reproduced verbatim; documentation is included for plugins whose settings are not expressed as one Lua table.
 
